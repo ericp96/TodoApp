@@ -1,0 +1,38 @@
+version: '3.2'
+services:
+  reverse-proxy:
+    build: './reverseProxy'
+    ports:
+      - "80:80"
+    volumes:
+      - ./reverseProxy:/etc/traefik/
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --web --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    links:
+      - server
+      - app
+  app:
+    build: './app'
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    volumes:
+      - type: bind
+        source: ./app
+        target: /srv
+    labels:
+      - "traefik.backend=app"
+      - "traefik.frontend.rule=PathPrefix:/dist,/sockjs-node"
+      - "traefik.frontend.priority=2"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+  server:
+    build: './server'
+    command: npm run server
+    labels:
+      - "traefik.backend=server"
+      - "traefik.frontend.rule=Path:/"
+      - "traefik.frontend.priority=1"
+      - "traefik.enable=true"
+      - "traefik.port=3001"

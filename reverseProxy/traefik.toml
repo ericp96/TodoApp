@@ -1,0 +1,9 @@
+logLevel = "DEBUG"
+defaultEntryPoints = ["http", "https"]
+
+[web]
+address = ":80"
+
+[docker]
+watch = true
+exposedbydefault = false
