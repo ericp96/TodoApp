@@ -1,7 +1,7 @@
 const React = require('react');
 const { List } = require('immutable');
 
-const ObservableConnector = require('connector/ObservableConnector.hoc.react').default;
+const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
 
 @ObservableConnector('button_click', 'add_item')
 class Main extends React.PureComponent {

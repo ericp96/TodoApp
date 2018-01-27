@@ -2,7 +2,7 @@ const React = require('react');
 const PropTypes = require('prop-types');
 const { Map } = require('immutable');
 
-const ObservableStore = require('stores/ObservableStore').default;
+const ObservableStore = require('./ObservableStore').default;
 
 class ObservableProvider extends React.PureComponent {
     observableStore = new ObservableStore();

@@ -1,7 +1,7 @@
 const React = require('react');
 const { List } = require('immutable');
 
-const ObservableConnector = require('connector/ObservableConnector.hoc.react').default;
+const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
 
 const stateKeysFromList = require('utility/stateKeysFromList').default;
 const setObservableFromInput = require('utility/setObservableFromInput').default;
