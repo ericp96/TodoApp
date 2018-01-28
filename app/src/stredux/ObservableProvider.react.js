@@ -17,14 +17,8 @@ class ObservableProvider extends React.PureComponent {
 
     getChildContext() {
         return {
-            observableStore: this.observableStore
+            observableStore: this.props.store
         }
-    }
-
-    componentWillMount() {
-        this.props.store
-            .forEach((observable, name) => 
-                this.observableStore.register$(name, observable));
     }
 
     render() {

@@ -1,10 +1,8 @@
 const Rx = require('rxjs');
-const { List, Map } = require('immutable');
+const { List, Map, Record } = require('immutable');
 
-export default Map()
-    .set('id', new Rx.Subject())
-    .set('title', new Rx.Subject())
-    .set('description', new Rx.Subject())
-    .set('estimated_hours', new Rx.Subject())
-    .set('target_completion', new Rx.Subject())
-    .mapKeys(key => List(['editor', key]));
+const PartialStateRecord = require('models/PartialStateRecord').default;
+const editorPartialState = require('./components/todoEditor/TodoEditor.state').default;
+export default new PartialStateRecord({
+    path: List(['views', 'editor'])
+}).mergePartialState(editorPartialState);
