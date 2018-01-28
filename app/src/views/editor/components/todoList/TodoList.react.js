@@ -1,6 +1,7 @@
 const React = require('react');
 const Immutable = require('immutable');
 const { Paper, Subheader, List, ListItem } = require('material-ui');
+const DeleteIcon = require('material-ui/svg-icons/action/delete').default;
 
 const { getStateSelector } = require('utility/selectors');
 const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
@@ -22,20 +23,20 @@ class TodoList extends React.PureComponent {
     };
 
     get todos() {
-        return this.props.todoState ? this.props.todoState.todos : Immutable.List();
+        const { todoState } = this.props;
+        return todoState && todoState.todos ? todoState.todos : Immutable.List();
     }
 
     render() {
         return (
             <Paper zDepth={1} className={todoList} rounded={false}>
-                {(this.todos || []).map(d => (<div key={d.title}>{ d.title }</div>))}
                 <List>
                     <Subheader>Group Todos</Subheader>
-                    <ListItem>Todo #1</ListItem>
-                    <ListItem>Todo #2</ListItem>
-                    <ListItem>Todo #3</ListItem>
-                    <ListItem>Todo #4</ListItem>
-                    <ListItem>Todo #5</ListItem>
+                    { this.todos.map(d => (
+                        <ListItem key={d.id} rightIconButton={<DeleteIcon />}>
+                            { d.title }
+                        </ListItem>
+                    ))}
                 </List>
             </Paper>
         );

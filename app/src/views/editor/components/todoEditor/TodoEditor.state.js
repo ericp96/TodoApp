@@ -15,6 +15,8 @@ const actions = Map({
         .map(estimatedHours => state => state.set('estimatedHours', estimatedHours)),
     'setTargetCompletionDate': new Rx.Subject()
         .map(targetCompletionDate => state => state.set('targetCompletionDate', targetCompletionDate)),
+    'clear': new Rx.Subject()
+        .map(targetCompletionDate => state => new TodoRecord()),
 }).mapKeys(key => List([key]));
 
 const state = Map({

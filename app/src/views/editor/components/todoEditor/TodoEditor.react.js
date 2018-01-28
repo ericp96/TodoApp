@@ -19,6 +19,7 @@ const getEditorActionSelector = getScopedActionSelector(statePath)
 const addTodoSelector = getActionSelector(List(['stores', 'todos', 'addTodo']));
 const deleteTodoSelector = getActionSelector(List(['stores', 'todos', 'deleteTodo']));
 
+const clearSelector = getEditorActionSelector('clear');
 const setTitleSelector = getEditorActionSelector('setTitle');
 const setDescriptionSelector = getEditorActionSelector('setDescription');
 const setEstimatedHoursSelector = getEditorActionSelector('setEstimatedHours');
@@ -28,13 +29,15 @@ const viewStateSelector = getStateSelector(statePath.push('state'));
 const mapObservablesToProps = createObservableSelector(
     addTodoSelector,
     deleteTodoSelector,
+    clearSelector,
     setTitleSelector,
     setDescriptionSelector,
     setEstimatedHoursSelector,
     setTargetCompletionSelector,
-    (addTodo$, deleteTodo$, setTitle$, setDescription$, setEstimatedHours$, setTargetCompletion$) => ({
+    (addTodo$, deleteTodo$, clear$, setTitle$, setDescription$, setEstimatedHours$, setTargetCompletion$) => ({
         addTodo$,
         deleteTodo$,
+        clear$,
         setTitle$,
         setDescription$,
         setEstimatedHours$,
@@ -59,9 +62,11 @@ class TodoEditor extends React.PureComponent {
     }
 
     saveTodo() {
-        const todo = this.props.todoEditState
+        const { todoEditState, addTodo$, clear$ } = this.props; 
+        const todo = todoEditState
             .set('id', uuid());
-        this.props.addTodo$.next(todo);
+        addTodo$.next(todo);
+        clear$.next();
     }
 
     render() {
