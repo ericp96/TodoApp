@@ -2,17 +2,13 @@ const Rx = require('rxjs');
 const { List, Map, Record } = require('immutable');
 
 const PartialStateRecord = require('models/PartialStateRecord').default;
-
-const TodoRecord = Record({
-    groups: List(),
-    todos: List(),
-    groupTodos: Map()
-});
+const TodoStateRecord = require('models/TodoStateRecord').default;
 
 const actions = Map({
     'addTodo': new Rx.Subject()
         .map(todo => state => state
-            .set('todos', state.todos.unshift(todo))),
+            .update('todos', todos => 
+                todos.filter(t => t.id !== todo.id).unshift(todo))),
     'deleteTodo': new Rx.Subject()
         .map((todoId) => state => state
             .update('todos', todos => 
@@ -26,9 +22,17 @@ const actions = Map({
 
 const state = Map({
     'state': Rx.Observable.merge(...actions.valueSeq())
-        .scan((state, changeFn) => changeFn(state), new TodoRecord())
+        .scan((state, changeFn) => changeFn(state), getInitialState())
 }).mapKeys(key => List([key]));
-    
+
+function getInitialState() {
+    const localStorageTodos = JSON.parse(window.localStorage.getItem('todos'));
+    return localStorageTodos ? TodoStateRecord.fromJS(localStorageTodos) : new TodoStateRecord();
+}
+
+state.first().subscribe(todos => 
+    window.localStorage.setItem('todos', JSON.stringify(todos)));
+
 export default new PartialStateRecord({
     actions,
     state,

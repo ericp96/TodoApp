@@ -64,7 +64,8 @@ class TodoEditor extends React.PureComponent {
     saveTodo() {
         const { todoEditState, addTodo$, clear$ } = this.props; 
         const todo = todoEditState
-            .set('id', uuid());
+            .update('id', id => id || uuid());
+        
         addTodo$.next(todo);
         clear$.next();
     }

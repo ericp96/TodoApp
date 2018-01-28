@@ -11,6 +11,7 @@ const { todoList } = require('sass/styles.scss');
 
 const todosStateSelector = getStateSelector(Immutable.List(['stores', 'todos', 'state']));
 const deleteTodoSelector = getActionSelector(Immutable.List(['stores', 'todos', 'deleteTodo']));
+const setTodoSelector = getActionSelector(Immutable.List(['views', 'editor', 'editor', 'set']));
 
 function getDeleteAction(todoId, deleteTodo$) {
     return () => deleteTodo$.next(todoId);
@@ -20,9 +21,16 @@ function getDeleteButton(todoId, deleteTodo$) {
     return <DeleteButton onClick={getDeleteAction(todoId, deleteTodo$)} />
 }
 
+function setTodo(todo, setTodo$) {
+    return function () {
+        setTodo$.next(todo);
+    }
+}
+
 const mapObservablesToProps = createObservableSelector(
     deleteTodoSelector,
-    (deleteTodo$) => ({ deleteTodo$ })
+    setTodoSelector,
+    (deleteTodo$, setTodo$) => ({ deleteTodo$, setTodo$ })
 );
 
 const mapObservableValuesToProps = createObservableSelector(
@@ -46,9 +54,9 @@ class TodoList extends React.PureComponent {
             <Paper zDepth={1} className={todoList} rounded={false}>
                 <List>
                     <Subheader>Group Todos</Subheader>
-                    { this.todos.map(d => (
-                        <ListItem key={d.id} rightIconButton={getDeleteButton(d.id, this.props.deleteTodo$)}>
-                            { d.title }
+                    { this.todos.map(todo => (
+                        <ListItem key={todo.id} onClick={setTodo(todo, this.props.setTodo$)} rightIconButton={getDeleteButton(todo.id, this.props.deleteTodo$)}>
+                            { todo.title }
                         </ListItem>
                     ))}
                 </List>

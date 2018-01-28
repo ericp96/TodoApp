@@ -35,10 +35,10 @@ function observableConnector(mapObservablesToProps, mapObservableValuesToProps) 
                         ...observableValueMapper.filter(v => !v).keySeq());
                 }
 
-                const aggregatedObservable = Rx.Observable.combineLatest(...observableValueSeq)
-                    .map((args) => Map(observableKeySeq.zip(List(args))));
-
-                aggregatedObservable.subscribe(newMap => this.setState(newMap.toObject()));
+                const aggregatedObservable = Rx.Observable
+                    .combineLatest(...observableValueSeq)
+                    .map((args) => Map(observableKeySeq.zip(List(args))))
+                    .subscribe(newMap => this.setState(newMap.toObject()));
             }
 
             render() {

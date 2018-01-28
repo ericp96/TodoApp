@@ -7,7 +7,8 @@ class DeleteButton extends React.PureComponent {
     render() {
         const style = { 
             ...(this.props.style || {}),
-            top: 10 + 'px' 
+            top: '10px',
+            right: '15px'
         };
 
         return (
