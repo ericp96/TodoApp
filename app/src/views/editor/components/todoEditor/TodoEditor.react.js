@@ -1,19 +1,23 @@
 const React = require('react');
 const { List } = require('immutable');
-const { Paper, Subheader, TextField, DatePicker } = require('material-ui');
+const { Paper, Subheader, TextField, DatePicker, RaisedButton } = require('material-ui');
+const uuid = require('uuid/v4');
 
 const TodoRecord = require('models/TodoRecord').default;
 const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
 const createObservableSelector = require('stredux/createObservableSelector').default;
 
 const setObservableFromInput = require('utility/setObservableFromInput').default;
-const { getScopedActionSelector, getStateSelector } = require('utility/selectors');
+const { getScopedActionSelector, getActionSelector, getStateSelector } = require('utility/selectors');
 
-import { todoEditor, editorEntry } from 'sass/styles.scss';
+const { todoEditor, editorEntry } = require('sass/styles.scss');
 
 const statePath = List(['views', 'editor', 'editor']);
 
 const getEditorActionSelector = getScopedActionSelector(statePath)
+
+const addTodoSelector = getActionSelector(List(['stores', 'todos', 'addTodo']));
+const deleteTodoSelector = getActionSelector(List(['stores', 'todos', 'deleteTodo']));
 
 const setTitleSelector = getEditorActionSelector('setTitle');
 const setDescriptionSelector = getEditorActionSelector('setDescription');
@@ -22,11 +26,15 @@ const setTargetCompletionSelector = getEditorActionSelector('setTargetCompletion
 const viewStateSelector = getStateSelector(statePath.push('state'));
 
 const mapObservablesToProps = createObservableSelector(
+    addTodoSelector,
+    deleteTodoSelector,
     setTitleSelector,
     setDescriptionSelector,
     setEstimatedHoursSelector,
     setTargetCompletionSelector,
-    (setTitle$, setDescription$, setEstimatedHours$, setTargetCompletion$) => ({
+    (addTodo$, deleteTodo$, setTitle$, setDescription$, setEstimatedHours$, setTargetCompletion$) => ({
+        addTodo$,
+        deleteTodo$,
         setTitle$,
         setDescription$,
         setEstimatedHours$,
@@ -45,6 +53,17 @@ class TodoEditor extends React.PureComponent {
         todoEditState: new TodoRecord()
     };
 
+    constructor() {
+        super();
+        this.saveTodo = this.saveTodo.bind(this);
+    }
+
+    saveTodo() {
+        const todo = this.props.todoEditState
+            .set('id', uuid());
+        this.props.addTodo$.next(todo);
+    }
+
     render() {
         const { title, description, estimatedHours, targetCompletionDate } = this.props.todoEditState;
         const updateTitle = setObservableFromInput(this.props.setTitle$);
@@ -54,6 +73,8 @@ class TodoEditor extends React.PureComponent {
 
         return (
             <Paper zDepth={1} className={todoEditor} rounded={false}>
+                <Subheader>Create Todo</Subheader>
+
                 <div className={editorEntry}>
                     <TextField
                         hintText="Email Tracy"
@@ -87,6 +108,10 @@ class TodoEditor extends React.PureComponent {
                         mode="landscape"
                         value={targetCompletionDate}
                         onChange={updateTargetCompletion} />
+                </div>
+
+                <div className={editorEntry}>
+                    <RaisedButton label="Save" primary={true} onClick={this.saveTodo} />
                 </div>
             </Paper>
         );

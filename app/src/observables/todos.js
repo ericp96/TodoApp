@@ -11,8 +11,12 @@ const TodoRecord = Record({
 
 const actions = Map({
     'addTodo': new Rx.Subject()
-        .map((todo) => state => state
-            .set('todos', state.todos.push(todo))),
+        .map(todo => state => state
+            .set('todos', state.todos.unshift(todo))),
+    'deleteTodo': new Rx.Subject()
+        .map((todoId) => state => state
+            .update('todos', todos => 
+                todos.filter(todo => todo.id !== todoId))),
     'addTodoToGroup': new Rx.Subject()
         .map((groupId, todoId) => state => state
             .setIn(['groupTodos', groupId], todoId)),

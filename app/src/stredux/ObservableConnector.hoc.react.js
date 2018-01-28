@@ -30,10 +30,15 @@ function observableConnector(mapObservablesToProps, mapObservableValuesToProps) 
                 const observableKeySeq = observableValueMapper.keySeq();
                 const observableValueSeq = observableValueMapper.valueSeq();
 
+                if(observableValueSeq.some(v => !v)) {
+                    throw new Error('Cannot find observable for sequence:', 
+                        ...observableValueMapper.filter(v => !v).keySeq());
+                }
+
                 const aggregatedObservable = Rx.Observable.combineLatest(...observableValueSeq)
                     .map((args) => Map(observableKeySeq.zip(List(args))));
 
-                aggregatedObservable.subscribe(newMap => this.setState(newMap.toJSON()));
+                aggregatedObservable.subscribe(newMap => this.setState(newMap.toObject()));
             }
 
             render() {
