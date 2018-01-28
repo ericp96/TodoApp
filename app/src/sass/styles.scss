@@ -1,0 +1,18 @@
+.editor-wrapper {
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.todo-list {
+    flex: 1 1 auto;
+}
+
+.todo-editor {
+    flex: 4 4 auto;
+}
+
+.editor-entry {
+    padding: 1em;
+}

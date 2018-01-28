@@ -21,6 +21,7 @@ services:
       - type: bind
         source: ./app
         target: /srv
+        consistency: delegated
     labels:
       - "traefik.backend=app"
       - "traefik.frontend.rule=PathPrefix:/dist,/sockjs-node"

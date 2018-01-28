@@ -6,7 +6,10 @@ const config = {
     entry: ['babel-polyfill', './index.js'],
     context: path.resolve(__dirname, 'src'),
     resolve: {
-        modules: ['node_modules', path.resolve(__dirname, 'src')]
+        modules: ['node_modules', path.resolve(__dirname, 'src')],
+        alias: {
+            sass: path.resolve(__dirname, 'src/sass')
+        }
     },
     devServer: {
         host: "0.0.0.0",
@@ -39,13 +42,22 @@ const config = {
                 }
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
+                exclude: /node_modules/,
                 use: [
                     {
                         loader: 'style-loader'
                     },
                     {
                         loader: 'css-loader',
+                        options: {
+                            modules: true,
+                            camelCase: true,
+                            sourceMap: true
+                        }
+                    }, 
+                    {
+                        loader: "sass-loader",
                         options: {
                             modules: true,
                             camelCase: true,

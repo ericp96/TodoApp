@@ -37,7 +37,7 @@ function observableConnector(mapObservablesToProps, mapObservableValuesToProps) 
             }
 
             render() {
-                return <Component {...this.observableProps} {...this.state} />
+                return <Component {...this.props} {...this.observableProps} {...this.state} />
             }
         }
     }
