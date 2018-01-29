@@ -5,6 +5,7 @@ const shape = {
     title: '',
     description: '',
     estimatedHours: 0,
+    complete: false,
     targetCompletionDate: new Date()
 };
 
@@ -15,6 +16,7 @@ class TodoRecord extends Record(shape) {
             title: todoState.title,
             description: todoState.description,
             estimatedHours: todoState.estimatedHours,
+            complete: !!todoState.complete,
             targetCompletionDate: todoState.targetCompletionDate
         });
     }

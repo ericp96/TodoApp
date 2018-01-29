@@ -13,6 +13,11 @@ const actions = Map({
         .map((todoId) => state => state
             .update('todos', todos => 
                 todos.filter(todo => todo.id !== todoId))),
+    'setTodoComplete': new Rx.Subject()
+        .map((todo) => state => state
+            .update('todos', todos =>
+                todos.filter(t => t.id !== todo.id)
+                    .push(todo.set('complete', true)))),
     'addTodoToGroup': new Rx.Subject()
         .map((groupId, todoId) => state => state
             .setIn(['groupTodos', groupId], todoId)),
