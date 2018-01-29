@@ -48,7 +48,7 @@ class TodoList extends React.PureComponent {
                             onClick={createActionCallbackWithPredefinedArgs(setTodo$, todo)} 
                             rightIconButton={<TodoControls todo={todo} />}>
                             <div>
-                                <div classname={todoListTitle}>
+                                <div className={todoListTitle}>
                                     {todo.title}
                                 </div>
                                 <div className={todoListDate}>

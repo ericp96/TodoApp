@@ -25,7 +25,7 @@ class TodoControls extends React.PureComponent {
         return {
             ...(this.props.style || {}),
             top: '19px',
-            right: '40px'
+            right: '45px'
         };
     }
 
