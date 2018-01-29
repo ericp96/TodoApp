@@ -9,5 +9,7 @@ docker-compose build
 docker-compose up -d
 docker-compose logs -f
 ```
+** Note: if using Mac then you may want to use docker-sync.
 
-Navigate to `http://127.0.0.1`
+### Accessing the applicaiton
+Open a browser and navigate to `http://127.0.0.1`

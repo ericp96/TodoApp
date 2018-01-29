@@ -18,9 +18,10 @@ services:
     expose:
       - 3000
     volumes:
-      - type: bind
-        source: ./app
-        target: /srv
+      - app-sync:/srv:nocopy
+      # - type: bind
+      #   source: ./app
+      #   target: /srv
     labels:
       - "traefik.backend=app"
       - "traefik.frontend.rule=PathPrefix:/dist,/sockjs-node"
@@ -36,3 +37,7 @@ services:
       - "traefik.frontend.priority=1"
       - "traefik.enable=true"
       - "traefik.port=3001"
+
+volumes:
+  app-sync:
+    external: true
