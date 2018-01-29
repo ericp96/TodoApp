@@ -38,6 +38,9 @@
 .dashboard-card {
     flex: 1 1 auto;
     margin: 1em;
+
+    display: flex;
+    flex-flow: column;
 }
 
 .dashboard-card-label-title {
@@ -46,4 +49,9 @@
     font-weight: bold;
     font-size: 5vw;
     padding: 0 0.5em 0.7em;
+
+    display: flex;
+    flex: 1 1 auto;
+    align-items: center;
+    justify-content: center
 }

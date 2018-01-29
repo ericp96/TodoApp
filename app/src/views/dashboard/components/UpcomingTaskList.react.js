@@ -46,7 +46,9 @@ class UpcomingTaskList extends React.PureComponent {
                 !todo.complete &&
                 todo.targetCompletionDate <= upcomingTs &&
                 todo.targetCompletionDate >= currentTs)
-                .sort((a, b) => getSortValue(a) < getSortValue(b)).reverse()
+                .sort((a, b) => getSortValue(a) < getSortValue(b))
+                .reverse()
+                .take(3)
             : Immutable.List();
     }
 
