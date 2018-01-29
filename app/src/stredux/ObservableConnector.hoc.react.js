@@ -3,11 +3,6 @@ const PropTypes = require('prop-types');
 const { Map, List } = require('immutable');
 const Rx = require('rxjs');
 
-// not the most extensible, but serves for the purpose of the demo
-function getNameFromKeyName(keyName) {
-    return keyName.last ? keyName.last() : keyName;
-}
-
 function observableConnector(mapObservablesToProps, mapObservableValuesToProps) {
     return function _observableConnector(Component) {
         return class ObservableConnectorHOC extends React.PureComponent {

@@ -4,6 +4,7 @@ const Immutable = require('immutable');
 const CompleteButton = require('./CompleteButton.react').default;
 const DeleteButton = require('./DeleteButton.react').default;
 
+const compose = require('utility/compose').default;
 const { getStateSelector, getActionSelector } = require('utility/selectors');
 const { createActionCallbackWithPredefinedArgs } = require('utility/createActionCallback');
 const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
@@ -39,10 +40,20 @@ class TodoControls extends React.PureComponent {
     render() {
         const { todo, deleteTodo$, setTodoComplete$ } = this.props;
 
+        const onClickComplete = compose(
+            event => event.stopPropagation(),
+            createActionCallbackWithPredefinedArgs(setTodoComplete$, todo)
+        );
+
+        const onClickDelete = compose(
+            event => event.stopPropagation(),
+            createActionCallbackWithPredefinedArgs(deleteTodo$, todo.id)
+        );
+
         return (
             <div>
-                <CompleteButton style={this.completeButtonStyles} onClick={createActionCallbackWithPredefinedArgs(setTodoComplete$, todo)} todo={todo} />
-                <DeleteButton style={this.deleteButtonStyles} onClick={createActionCallbackWithPredefinedArgs(deleteTodo$, todo.id)} />
+                <CompleteButton style={this.completeButtonStyles} onClick={onClickComplete} todo={todo} />
+                <DeleteButton style={this.deleteButtonStyles} onClick={onClickDelete} />
             </div>
         );
     }

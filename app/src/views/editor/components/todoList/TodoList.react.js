@@ -1,5 +1,6 @@
 const React = require('react');
 const Immutable = require('immutable');
+const moment = require('moment');
 const { Paper, Subheader, List, ListItem } = require('material-ui');
 
 const { getStateSelector, getActionSelector } = require('utility/selectors');
@@ -31,7 +32,9 @@ class TodoList extends React.PureComponent {
 
     get todos() {
         const { todoState } = this.props;
-        return todoState && todoState.todos ? todoState.todos : Immutable.List();
+        return todoState && todoState.todos ? 
+            todoState.todos.sortBy(todo => (todo.complete * -1) * todo.targetCompletionDate)
+            : Immutable.List();
     }
 
     render() {
@@ -44,7 +47,12 @@ class TodoList extends React.PureComponent {
                         <ListItem key={todo.id} 
                             onClick={createActionCallbackWithPredefinedArgs(setTodo$, todo)} 
                             rightIconButton={<TodoControls todo={todo} />}>
-                            { todo.title }
+                            <span>
+                                {moment(todo.targetCompletionDate).format('MMM DD, YY')}
+                            </span>
+                            <span>
+                                { todo.title }
+                            </span>
                         </ListItem>
                     ))}
                 </List>

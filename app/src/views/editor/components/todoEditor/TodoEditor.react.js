@@ -1,5 +1,6 @@
 const React = require('react');
 const { List } = require('immutable');
+const moment = require('moment');
 const { Paper, Subheader, TextField, DatePicker, RaisedButton } = require('material-ui');
 const uuid = require('uuid/v4');
 
@@ -75,7 +76,7 @@ class TodoEditor extends React.PureComponent {
         const updateTitle = setObservableFromInput(this.props.setTitle$);
         const updateDescription = setObservableFromInput(this.props.setDescription$);
         const updateEstimatedHours = setObservableFromInput(this.props.setEstimatedHours$);
-        const updateTargetCompletion = (value) => this.props.setTargetCompletion$.next(value);
+        const updateTargetCompletion = (_, value) => this.props.setTargetCompletion$.next(value);
 
         return (
             <Paper zDepth={1} className={todoEditor} rounded={false}>
@@ -113,7 +114,8 @@ class TodoEditor extends React.PureComponent {
                         floatingLabelText="Target Completion Date"
                         mode="landscape"
                         value={targetCompletionDate}
-                        onChange={updateTargetCompletion} />
+                        onChange={updateTargetCompletion}
+                        startDate={moment().startOf('day').toDate()} />
                 </div>
 
                 <div className={editorEntry}>

@@ -5,6 +5,8 @@ const PartialStateRecord = require('models/PartialStateRecord').default;
 const TodoStateRecord = require('models/TodoStateRecord').default;
 
 const actions = Map({
+    'initialize': Rx.Observable.interval(0).take(1)
+        .map(() => state => getInitialState()),
     'addTodo': new Rx.Subject()
         .map(todo => state => state
             .update('todos', todos => 
@@ -17,7 +19,7 @@ const actions = Map({
         .map((todo) => state => state
             .update('todos', todos =>
                 todos.filter(t => t.id !== todo.id)
-                    .push(todo.set('complete', true)))),
+                    .push(todo.set('complete', !todo.complete)))),
     'addTodoToGroup': new Rx.Subject()
         .map((groupId, todoId) => state => state
             .setIn(['groupTodos', groupId], todoId)),
@@ -27,7 +29,7 @@ const actions = Map({
 
 const state = Map({
     'state': Rx.Observable.merge(...actions.valueSeq())
-        .scan((state, changeFn) => changeFn(state), getInitialState())
+        .scan((state, changeFn) => changeFn(state), new TodoStateRecord())
 }).mapKeys(key => List([key]));
 
 function getInitialState() {
