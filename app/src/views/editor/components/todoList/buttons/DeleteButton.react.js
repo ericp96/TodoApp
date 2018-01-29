@@ -5,14 +5,8 @@ const { red300 } = require('material-ui/styles/colors');
 
 class DeleteButton extends React.PureComponent {
     render() {
-        const style = { 
-            ...(this.props.style || {}),
-            top: '10px',
-            right: '15px'
-        };
-
         return (
-            <DeleteIcon {...this.props} onClick={this.props.onClick} color={red300} style={style} />
+            <DeleteIcon onClick={this.props.onClick} color={red300} style={this.props.style} />
         );
     }
 }
