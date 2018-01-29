@@ -76,7 +76,8 @@ class TodoEditor extends React.PureComponent {
         const updateTitle = setObservableFromInput(this.props.setTitle$);
         const updateDescription = setObservableFromInput(this.props.setDescription$);
         const updateEstimatedHours = setObservableFromInput(this.props.setEstimatedHours$);
-        const updateTargetCompletion = (_, value) => this.props.setTargetCompletion$.next(value);
+        const updateTargetCompletion = (_, value) =>
+            this.props.setTargetCompletion$.next(value.getTime());
 
         return (
             <Paper zDepth={1} className={todoEditor} rounded={false}>
@@ -115,7 +116,7 @@ class TodoEditor extends React.PureComponent {
                     <DatePicker
                         floatingLabelText="Target Completion Date"
                         mode="landscape"
-                        value={targetCompletionDate}
+                        value={moment(targetCompletionDate).toDate()}
                         onChange={updateTargetCompletion}
                         minDate={moment().startOf('day').toDate()} />
                 </div>

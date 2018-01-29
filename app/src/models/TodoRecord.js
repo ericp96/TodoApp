@@ -7,7 +7,7 @@ const shape = {
     description: '',
     estimatedHours: 2,
     complete: false,
-    targetCompletionDate: moment().startOf('day').toDate()
+    targetCompletionDate: moment().startOf('day').valueOf()
 };
 
 class TodoRecord extends Record(shape) {

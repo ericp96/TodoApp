@@ -24,6 +24,10 @@ const mapObservableValuesToProps = createObservableSelector(
     (todoState) => ({ todoState })
 );
 
+function getSortValue(todo) {
+    return (todo.complete ? 1 : -1) / todo.targetCompletionDate;
+}
+
 @ObservableConnector(mapObservablesToProps, mapObservableValuesToProps)
 class TodoList extends React.PureComponent {
     static defaultProps = {
@@ -33,7 +37,7 @@ class TodoList extends React.PureComponent {
     get todos() {
         const { todoState } = this.props;
         return todoState && todoState.todos ? 
-            todoState.todos.sortBy(todo => (todo.complete * -1) * todo.targetCompletionDate)
+            todoState.todos.sort((a, b) => getSortValue(a) < getSortValue(b)).reverse()
             : Immutable.List();
     }
 
