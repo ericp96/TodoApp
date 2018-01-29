@@ -19,9 +19,6 @@ services:
       - 3000
     volumes:
       - app-sync:/srv:nocopy
-      # - type: bind
-      #   source: ./app
-      #   target: /srv
     labels:
       - "traefik.backend=app"
       - "traefik.frontend.rule=PathPrefix:/dist,/sockjs-node"
@@ -33,7 +30,7 @@ services:
     command: npm run server
     labels:
       - "traefik.backend=server"
-      - "traefik.frontend.rule=Path:/"
+      - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=1"
       - "traefik.enable=true"
       - "traefik.port=3001"

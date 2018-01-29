@@ -27,3 +27,23 @@
 .editor-entry {
     padding: 0 1em 2em;
 }
+
+.dashboard-layout {
+    display: flex;
+    flex-flow: row;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.dashboard-card {
+    flex: 1 1 auto;
+    margin: 1em;
+}
+
+.dashboard-card-label-title {
+    text-align: center;
+    color: #009688;
+    font-weight: bold;
+    font-size: 5vw;
+    padding: 0 0.5em 0.7em;
+}

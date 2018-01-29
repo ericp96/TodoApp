@@ -9,4 +9,8 @@ const filePath = path.join(__dirname, 'static');
 
 app.use(express.static(filePath));
 
+app.get('*', function (req, res) {
+    res.sendfile('index.html', { root: __dirname + "/static/" });
+});
+
 app.listen(3001, () => console.log('App listening on port 3000!'))

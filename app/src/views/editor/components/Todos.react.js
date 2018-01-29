@@ -7,9 +7,11 @@ const { getStateSelector, getActionSelector } = require('utility/selectors');
 const { createActionCallbackWithPredefinedArgs } = require('utility/createActionCallback');
 const ObservableConnector = require('stredux/ObservableConnector.hoc.react').default;
 const createObservableSelector = require('stredux/createObservableSelector').default;
-const TodoControls = require('./buttons/TodoControls.react').default;
+const TodoStateRecord = require('models/TodoStateRecord').default;
 
-const { todoList, todoListDate, todoListTitle } = require('sass/styles.scss');
+const { todoList } = require('sass/styles.scss');
+
+const TodoList = require('components/todoList/TodoList.react').default;
 
 const todosStateSelector = getStateSelector(Immutable.List(['stores', 'todos', 'state']));
 const setTodoSelector = getActionSelector(Immutable.List(['views', 'editor', 'editor', 'set']));
@@ -29,42 +31,25 @@ function getSortValue(todo) {
 }
 
 @ObservableConnector(mapObservablesToProps, mapObservableValuesToProps)
-class TodoList extends React.PureComponent {
+class Todos extends React.PureComponent {
     static defaultProps = {
-        todoState: Immutable.List()
+        todoState: new TodoStateRecord()
     };
 
     get todos() {
         const { todoState } = this.props;
-        return todoState && todoState.todos ? 
+        return todoState && todoState.todos ?
             todoState.todos.sort((a, b) => getSortValue(a) < getSortValue(b)).reverse()
             : Immutable.List();
     }
 
     render() {
         const { setTodo$ } = this.props;
+
         return (
-            <Paper zDepth={1} className={todoList} rounded={false}>
-                <List>
-                    <Subheader>Group Todos</Subheader>
-                    { this.todos.map(todo => (
-                        <ListItem key={todo.id} 
-                            onClick={createActionCallbackWithPredefinedArgs(setTodo$, todo)} 
-                            rightIconButton={<TodoControls todo={todo} />}>
-                            <div>
-                                <div className={todoListTitle}>
-                                    {todo.title}
-                                </div>
-                                <div className={todoListDate}>
-                                    Due: {moment(todo.targetCompletionDate).format('MMM DD, YY')}
-                                </div>
-                            </div>
-                        </ListItem>
-                    ))}
-                </List>
-            </Paper>
+            <TodoList className={todoList} onClick$={setTodo$} todos={this.todos} />
         );
     }
 }
 
-export default TodoList;
+export default Todos;

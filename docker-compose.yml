@@ -32,7 +32,7 @@ services:
     command: npm run server
     labels:
       - "traefik.backend=server"
-      - "traefik.frontend.rule=Path:/"
+      - "traefik.frontend.rule=PathPrefix:/"
       - "traefik.frontend.priority=1"
       - "traefik.enable=true"
       - "traefik.port=3001"
