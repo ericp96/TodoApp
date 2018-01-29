@@ -29,14 +29,16 @@ class Layout extends React.PureComponent {
         return (
             <React.Fragment>
                 <MuiThemeProvider>
-                    <AppBar title="Todos" 
-                        iconClassNameRight="muidocs-icon-navigation-expand-more" 
-                        onLeftIconButtonClick={onToggleMenu} />
-                    <Drawer open={showMenu} docked={false} onRequestChange={onToggleMenu}>
-                        <MenuItem>Dashboard</MenuItem>
-                        <MenuItem>Todos</MenuItem>
-                    </Drawer>
-                    { this.props.children }
+                    <div>
+                        <AppBar title="Todos" 
+                            iconClassNameRight="muidocs-icon-navigation-expand-more" 
+                            onLeftIconButtonClick={onToggleMenu} />
+                        <Drawer open={showMenu} docked={false} onRequestChange={onToggleMenu}>
+                            <MenuItem>Dashboard</MenuItem>
+                            <MenuItem>Todos</MenuItem>
+                        </Drawer>
+                        { this.props.children }
+                    </div>
                 </MuiThemeProvider>
             </React.Fragment>
         );

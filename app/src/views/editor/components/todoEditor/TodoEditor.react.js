@@ -84,7 +84,7 @@ class TodoEditor extends React.PureComponent {
 
                 <div className={editorEntry}>
                     <TextField
-                        hintText="Email Tracy"
+                        hintText="Email Nancy"
                         floatingLabelText="Todo Name"
                         floatingLabelFixed={true} 
                         value={title}
@@ -93,11 +93,13 @@ class TodoEditor extends React.PureComponent {
 
                 <div className={editorEntry}>
                     <TextField
-                        hintText="Invite her to the meeting"
                         floatingLabelText="Description"
                         floatingLabelFixed={true}
                         value={description} 
-                        onChange={updateDescription} />
+                        onChange={updateDescription}
+                        multiLine={true}
+                        rows={2}
+                        rowsMax={8} />
                 </div>
 
                 <div className={editorEntry}>
@@ -115,7 +117,7 @@ class TodoEditor extends React.PureComponent {
                         mode="landscape"
                         value={targetCompletionDate}
                         onChange={updateTargetCompletion}
-                        startDate={moment().startOf('day').toDate()} />
+                        minDate={moment().startOf('day').toDate()} />
                 </div>
 
                 <div className={editorEntry}>

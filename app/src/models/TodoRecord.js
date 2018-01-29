@@ -1,4 +1,5 @@
 const { Record } = require('immutable');
+const moment = require('moment');
 
 const shape = {
     id: null,
@@ -6,7 +7,7 @@ const shape = {
     description: '',
     estimatedHours: 2,
     complete: false,
-    targetCompletionDate: (new Date()).getTime()
+    targetCompletionDate: moment().startOf('day').toDate()
 };
 
 class TodoRecord extends Record(shape) {
