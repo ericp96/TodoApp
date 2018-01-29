@@ -24,7 +24,7 @@ class TodoControls extends React.PureComponent {
     get completeButtonStyles() {
         return {
             ...(this.props.style || {}),
-            top: '10px',
+            top: '19px',
             right: '40px'
         };
     }
@@ -32,7 +32,7 @@ class TodoControls extends React.PureComponent {
     get deleteButtonStyles() {
         return {
             ...(this.props.style || {}),
-            top: '10px',
+            top: '19px',
             right: '15px'
         };
     }

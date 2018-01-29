@@ -4,9 +4,9 @@ const shape = {
     id: null,
     title: '',
     description: '',
-    estimatedHours: 0,
+    estimatedHours: 2,
     complete: false,
-    targetCompletionDate: new Date()
+    targetCompletionDate: (new Date()).getTime()
 };
 
 class TodoRecord extends Record(shape) {

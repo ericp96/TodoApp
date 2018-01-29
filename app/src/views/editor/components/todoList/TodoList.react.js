@@ -9,7 +9,7 @@ const ObservableConnector = require('stredux/ObservableConnector.hoc.react').def
 const createObservableSelector = require('stredux/createObservableSelector').default;
 const TodoControls = require('./buttons/TodoControls.react').default;
 
-const { todoList } = require('sass/styles.scss');
+const { todoList, todoListDate, todoListTitle } = require('sass/styles.scss');
 
 const todosStateSelector = getStateSelector(Immutable.List(['stores', 'todos', 'state']));
 const setTodoSelector = getActionSelector(Immutable.List(['views', 'editor', 'editor', 'set']));
@@ -47,12 +47,14 @@ class TodoList extends React.PureComponent {
                         <ListItem key={todo.id} 
                             onClick={createActionCallbackWithPredefinedArgs(setTodo$, todo)} 
                             rightIconButton={<TodoControls todo={todo} />}>
-                            <span>
-                                {moment(todo.targetCompletionDate).format('MMM DD, YY')}
-                            </span>
-                            <span>
-                                { todo.title }
-                            </span>
+                            <div>
+                                <div classname={todoListTitle}>
+                                    {todo.title}
+                                </div>
+                                <div className={todoListDate}>
+                                    Due: {moment(todo.targetCompletionDate).format('MMM DD, YY')}
+                                </div>
+                            </div>
                         </ListItem>
                     ))}
                 </List>

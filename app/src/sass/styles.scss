@@ -10,11 +10,20 @@
     margin: 1.5em;
 }
 
+.todo-list-date {
+    font-size: 11px;
+    font-style: italic;
+}
+
+.todo-list-title {
+    font-size: 12px;
+}
+
 .todo-editor {
     flex: 4 4 auto;
     margin: 1.5em;
 }
 
 .editor-entry {
-    padding: 1.5em;
+    padding: 1em 1.5em;
 }
