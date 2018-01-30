@@ -1,37 +1,38 @@
 module.exports = function (config) {
     config.set({
-        basePath: '../test',
+        basePath: './',
         frameworks: ['mocha'],
-        files: ["**/*.js"],
+        files: ["*.js"],
         browsers: ['Chrome', 'Firefox'],
+
+        files: [
+            { pattern: 'test/**/*.test.js', watched: false }
+        ],
 
         preprocessors: {
             'src/**/*.js': ['babel'],
-            'test/**/*.js': ['babel']
+            'test/**/*.test.js': ['babel']
         },
+
         babelPreprocessor: {
-            options: {
-                presets: ['es2015'],
-                sourceMap: 'inline'
-            },
-            filename: function (file) {
-                return file.originalPath.replace(/\.js$/, '.es5.js');
-            },
-            sourceFileName: function (file) {
-                return file.originalPath;
-            }
+            // should use babelrc
+            // options: {
+            //     presets: ['es2015'],
+            //     sourceMap: 'inline'
+            // },
+            // filename: function (file) {
+            //     return file.originalPath;
+            // },
+            // sourceFileName: function (file) {
+            //     return file.originalPath;
+            // }
         },
 
         client: {
             mocha: {
-                grep: "test/**/*.js",
-                // change Karma's debug.html to the mocha web reporter 
+                grep: "test\\/[a-zA-Z0-9]+\\/[a-zA-Z0-9].test.js",
                 reporter: 'html',
-
-                // require specific files after Mocha is initialized 
                 require: [require.resolve('bdd-lazy-var')],
-
-                // custom ui, defined in required file above 
                 ui: 'bdd-lazy-var',
             }
         }

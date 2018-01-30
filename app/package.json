@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server --config /srv/webpack.config.js",
-    "test": "karma start && karma run"
+    "test": "karma start ./karma.conf.js && karma run"
   },
   "license": "MIT",
   "dependencies": {
